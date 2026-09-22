@@ -1,0 +1,68 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 16px 20px 12px;
+  background: linear-gradient(180deg, var(--bg) 70%, rgba(9, 9, 12, 0));
+  backdrop-filter: blur(10px);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.spacer {
+  width: 34px;
+  height: 34px;
+}
+
+.backBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline-strong);
+  background: var(--bg-raised);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), transform 0.15s var(--ease);
+}
+
+.backBtn:hover {
+  background: var(--bg-raised-2);
+}
+
+.backBtn:active {
+  transform: scale(0.92);
+}
+
+.progress {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.dot {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--hairline-strong);
+  transition: background 0.3s var(--ease);
+}
+
+.dotActive {
+  background: var(--violet);
+}

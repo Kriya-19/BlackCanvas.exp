@@ -1,0 +1,46 @@
+.control {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--bg);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: none;
+  background: var(--bg-raised-2);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s var(--ease), transform 0.12s var(--ease), color 0.15s var(--ease);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--violet-deep);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.9);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.count {
+  width: 30px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
