@@ -56,8 +56,6 @@
   font-size: 13.5px;
   font-weight: 600;
   color: var(--text);
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -70,6 +68,31 @@
   width: 1px;
   background: var(--hairline);
   margin: 0 12px;
+}
+
+@media (max-width: 400px) {
+  .infoRow {
+    display: grid;
+    grid-template-columns: max-content auto max-content auto max-content;
+    padding: 13px 4px;
+  }
+
+  .infoItem {
+    min-width: 0;
+  }
+
+  .infoLabel {
+    font-size: 10px;
+  }
+
+  .infoValue,
+  .infoValueLink {
+    font-size: 10.5px;
+  }
+
+  .infoDivider {
+    margin: 0 1px;
+  }
 }
 
 .section {
