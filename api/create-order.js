@@ -66,6 +66,9 @@ export default async function handler(req, res) {
         customerPhone: customer.phone,
         customerEmail: customer.email,
         instagram: customer.instagram || "",
+        ticketType: lineItems.map((item) => item.name).join(", "),
+        quantity: String(lineItems.reduce((sum, item) => sum + item.quantity, 0)),
+        amount: String(amount),
         items: JSON.stringify(lineItems),
       },
     });
