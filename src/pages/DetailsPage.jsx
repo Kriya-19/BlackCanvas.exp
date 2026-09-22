@@ -65,12 +65,12 @@ export default function DetailsPage() {
       if (!orderRes.ok) throw new Error(orderData.error || "Could not start payment");
 
       const paymentResponse = await openRazorpayCheckout({
-        key: orderData.keyId,
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency,
         name: BRAND.name,
         description: `${EVENT.title} — ${totalQuantity} ticket${totalQuantity > 1 ? "s" : ""}`,
-        order_id: orderData.orderId,
+        order_id: orderData.order_id,
         prefill: {
           name: form.name,
           email: form.email,
@@ -84,10 +84,6 @@ export default function DetailsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...paymentResponse,
-          bookingId: orderData.bookingId,
-          customer: form,
-          lineItems: orderData.lineItems,
-          amount: orderData.amount,
         }),
       });
       const verifyData = await verifyRes.json();
@@ -97,7 +93,7 @@ export default function DetailsPage() {
       }
 
       setLastBooking({
-        bookingId: verifyData.bookingId,
+        bookingId: orderData.bookingId,
         paymentId: verifyData.paymentId,
         customer: form,
         lineItems: selectedItems,

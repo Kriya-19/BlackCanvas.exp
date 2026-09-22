@@ -38,6 +38,10 @@ export default async function handler(req, res) {
       lineItems.push({ id: ticket.id, name: ticket.name, price: ticket.price, quantity: qty });
     }
 
+    if (amount * 100 < 100) {
+      return res.status(400).json({ error: "Order amount must be at least 100 paise" });
+    }
+
     if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
       return res.status(500).json({ error: "Razorpay is not configured on the server" });
     }
@@ -71,15 +75,17 @@ export default async function handler(req, res) {
     // record even if the user closes the tab before paying.
 
     return res.status(200).json({
-      orderId: order.id,
+      order_id: order.id,
       amount: order.amount,
       currency: order.currency,
-      keyId: process.env.RAZORPAY_KEY_ID,
       bookingId,
       lineItems,
     });
   } catch (err) {
     console.error("create-order error:", err);
+    if (err?.statusCode === 401 || err?.status === 401) {
+      return res.status(401).json({ error: "Razorpay authentication failed" });
+    }
     return res.status(500).json({ error: "Could not create order" });
   }
 }

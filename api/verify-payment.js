@@ -2,10 +2,7 @@ import crypto from "crypto";
 
 /**
  * POST /api/verify-payment
- * body: {
- *   razorpay_order_id, razorpay_payment_id, razorpay_signature,
- *   bookingId, customer, lineItems, amount
- * }
+ * body: { razorpay_order_id, razorpay_payment_id, razorpay_signature }
  *
  * Verifies the HMAC signature Razorpay sends back so a payment can't be
  * faked from the browser. This is the ONLY place a booking should be
@@ -22,13 +19,16 @@ export default async function handler(req, res) {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      bookingId,
-      customer,
-      lineItems,
-      amount,
     } = req.body ?? {};
 
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+    if (
+      typeof razorpay_order_id !== "string" ||
+      typeof razorpay_payment_id !== "string" ||
+      typeof razorpay_signature !== "string" ||
+      !razorpay_order_id ||
+      !razorpay_payment_id ||
+      !razorpay_signature
+    ) {
       return res.status(400).json({ verified: false, error: "Missing payment fields" });
     }
 
@@ -41,7 +41,12 @@ export default async function handler(req, res) {
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest("hex");
 
-    const isValid = expectedSignature === razorpay_signature;
+    const isValid =
+      expectedSignature.length === razorpay_signature.length &&
+      crypto.timingSafeEqual(
+        Buffer.from(expectedSignature, "utf8"),
+        Buffer.from(razorpay_signature, "utf8")
+      );
 
     if (!isValid) {
       return res.status(400).json({ verified: false, error: "Signature mismatch" });
@@ -53,12 +58,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       verified: true,
-      bookingId,
       paymentId: razorpay_payment_id,
       orderId: razorpay_order_id,
-      customer,
-      lineItems,
-      amount,
     });
   } catch (err) {
     console.error("verify-payment error:", err);
