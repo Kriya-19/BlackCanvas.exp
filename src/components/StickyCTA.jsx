@@ -7,9 +7,10 @@ export default function StickyCTA({
   disabled = false,
   loading = false,
   type = "button",
+  fixedOnMobile = false,
 }) {
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} ${fixedOnMobile ? styles.fixedOnMobile : ""}`}>
       <div className={styles.inner}>
         {subLabel ? <div className={styles.sub}>{subLabel}</div> : null}
         <button

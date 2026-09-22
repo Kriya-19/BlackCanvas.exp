@@ -69,7 +69,11 @@ export default function EventPage() {
         </section>
       </main>
 
-      <StickyCTA label="BOOK YOUR SPOT" onClick={() => navigate("/tickets")} />
+      <StickyCTA
+        label="BOOK YOUR SPOT"
+        onClick={() => navigate("/tickets")}
+        fixedOnMobile
+      />
     </div>
   );
 }
